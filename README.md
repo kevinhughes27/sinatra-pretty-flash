@@ -3,6 +3,9 @@ Sinatra-Pretty-Flash
 
 A simple gem that adds decent styled flash messages to a Sinatra app.
 
+### Example:
+![screenshot](https://raw.githubusercontent.com/pickle27/sinatra-pretty-flash/master/example/example.gif)
+
 Why?
 ----
 

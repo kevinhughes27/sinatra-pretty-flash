@@ -57,4 +57,6 @@ module Sinatra
       output
     end
   end
+
+  register PrettyFlash
 end

@@ -1,59 +1,55 @@
 require 'sinatra/base'
-require 'rack-flash'
+require 'sinatra/flash'
 
 module Sinatra
   module PrettyFlash
     def self.registered(app)
+      app.register Sinatra::Flash
       app.helpers FlashHelper
-      app.enable :sessions
-      app.use Rack::Flash, :sweep => true
     end
   end
 
   module FlashHelper
     def pretty_flash_css
-      output = ''
-      output += '<style>'
-      output += '.flash {'
-      output += '  position: fixed;'
-      output += '  padding: 0;'
-      output += '  margin: 0;'
-      output += '  bottom: 0;'
-      output += '  left: 0;'
-      output += '  width: 100%;'
-      output += '  height: 60px;'
-      output += '  line-height: 60px;'
-      output += '  background: rgba(0, 0, 0, 0.85);'
-      output += '  color: rgba(255, 255, 255, 1.0);'
-      output += '  text-align: center;'
-      output += '  font-size: 24px;'
-      output += '}'
-      output += '</style>'
-      output
-    end
-
-    def pretty_flash_html
-      output = ''
-      output += '<% if flash[:notice] %>'
-      output += '  <p class="flash notice"><%= flash[:notice] %></p>'
-      output += '<% end %>'
-
-      output += '<% if flash[:error] %>'
-      output += '  <p class="flash error"><%= flash[:error] %></p>'
-      output += '<% end %>'
+      output = <<-HTML
+        <style>
+        .flash {
+          position: fixed;
+          padding: 0;
+          margin: 0;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 60px;
+          line-height: 60px;
+          background: rgba(0, 0, 0, 0.85);
+          color: rgba(255, 255, 255, 1.0);
+          text-align: center;
+          font-size: 24px;
+        }
+        </style>
+      HTML
       output
     end
 
     def pretty_flash_js
-      output = ''
-      output += '<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>'
-      output += '<script>'
-      output += '$(function() {'
-      output += '  $(".flash").delay(500).fadeIn("normal", function() {'
-      output += '     $(this).delay(1500).fadeOut();'
-      output += '   });'
-      output += '});'
-      output += '</script>'
+      output = <<-HTML
+        <script>
+          window.onload = function() {
+            const flash = document.querySelector(".flash");
+            if (flash) {
+              flash.style.opacity = 0;
+              setTimeout(function() {
+                flash.style.transition = "opacity 1s";
+                flash.style.opacity = 1;
+              }, 500);
+              setTimeout(function() {
+                flash.style.opacity = 0;
+              }, 2000);
+            }
+          };
+        </script>
+      HTML
       output
     end
   end

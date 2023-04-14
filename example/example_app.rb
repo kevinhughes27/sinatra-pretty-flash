@@ -1,9 +1,10 @@
 require 'sinatra/base'
-require 'sinatra/pretty-flash'
+require_relative '../lib/sinatra/pretty-flash'
 
 class ExampleApp < Sinatra::Base
   register Sinatra::PrettyFlash
 
+  enable :sessions
   enable :inline_templates
 
   get '/' do
@@ -23,7 +24,14 @@ __END__
     <%= pretty_flash_css %>
   </head>
   <body>
-    <%= erb pretty_flash_html %>
+    <% if flash[:notice] %>
+      <p class="flash notice"><%= flash[:notice] %></p>
+    <% end %>
+
+    <% if flash[:error] %>
+      <p class="flash error"><%= flash[:error] %></p>
+    <% end %>
+
     <%= yield %>
   </body>
   <%= pretty_flash_js %>

@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/kevinhughes27/sinatra-pretty-flash/'
   s.license = 'MIT'
 
-  s.files = `git ls-files`.split('\n')
+  s.files = `git ls-files`.split("\n")
 
   s.add_runtime_dependency 'sinatra'
   s.add_runtime_dependency 'sinatra-flash'
